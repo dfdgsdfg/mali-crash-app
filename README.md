@@ -245,7 +245,9 @@ PR commit cherry-picked onto the same Flutter engine revision must complete
 3–5 identical 10-minute scenario 9 runs, with no FBO fatal and with the IO
 thread's `eglMakeCurrent` result recorded.
 
-PR A/B tracking placeholder: `TODO: add the exact Flutter PR URL`.
+[Flutter PR #192158](https://github.com/flutter/flutter/pull/192158) is the
+latest-master fix reference. The physical A/B above uses the Flutter 3.44.8
+diagnostic engine; the latest-master PR result is host-validated only.
 Do not interpret the diagnostic or force-rebind A/B as an implementation of
 that PR; both are separate experiments.
 
