@@ -127,20 +127,20 @@ contains the server-side matrix pages for these historical runs.
 | Workload | Matrix | Result | Evidence |
 | --- | --- | --- | --- |
 | Scenario 8, Impeller | [`matrix-2upg0u4rf50et`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/7340370323073090098) | Pass, 606 s; 120 decoded items | Local-only: `test-results/matrix-2upg0u4rf50et/…` |
-| Scenario 9, Impeller | [`matrix-xhjt4741oh8ba`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/5863574393666669055) | Native crash, about 9 s | Local-only: `test-results/matrix-xhjt4741oh8ba/…` |
-| Scenario 9 repeat, Impeller | [`matrix-3b6g9twm1uert`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/9034638518104891031) | Native crash, about 4.1 s | Local-only: `test-results/matrix-3b6g9twm1uert/…` |
+| Scenario 9, Impeller | [`matrix-xhjt4741oh8ba`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/5863574393666669055) | Native crash within about ten seconds | Local-only: `test-results/matrix-xhjt4741oh8ba/…` |
+| Scenario 9 repeat, Impeller | [`matrix-3b6g9twm1uert`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/9034638518104891031) | Native crash within about ten seconds | Local-only: `test-results/matrix-3b6g9twm1uert/…` |
 | Scenario 9, Skia | [`matrix-2jf9z8kppu2qs`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.479c61bab2b69f9e/matrices/8518953339329524335) | Pass, 603 s; 2,148/2,148 probes completed | Local-only: `test-results/matrix-2jf9z8kppu2qs/…` |
 
 ### Diagnostic A/B matrix
 
 The following rows use the same physical `starlte`/API 29 target and scenario
 9 unless noted. Every row through `threadsafe=true` is a confirmed crash; the
-force-rebind row records the first passing Test Lab run. Add each repeat as a
-new row rather than replacing an earlier matrix.
+force-rebind row records four passing Test Lab runs. Add each repeat as a new
+row rather than replacing an earlier matrix.
 
 | Variant | Matrix / status | Observation |
 | --- | --- | --- |
-| Baseline Impeller | [`matrix-xhjt4741oh8ba`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/5863574393666669055) | Crash in `blit_pass_gles.cc(88)` after about 9 s; `GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT` |
+| Baseline Impeller | [`matrix-xhjt4741oh8ba`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/5863574393666669055) | Crash in `blit_pass_gles.cc(88)` within about ten seconds; `GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT` |
 | Diagnostic v1 | [`matrix-4q90hbw7tstwa`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/6687540892501608226) | Crash reproduced with EGL/FBO diagnostics; no observed `eglMakeCurrent` failure |
 | Diagnostic v2 | [`matrix-1tuglrgj6zgl3`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/4683634709996739103) | `GL_INVALID_OPERATION`, FBO valid, current EGL handles present, `texture_handle_is_texture=false` |
 | `threadsafe=true` texture A/B | [`matrix-22ye7y2uvt1a7`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/6601825473377377354) | Same crash and identity result; changing the decoder texture to tracked/thread-safe did not resolve it |
@@ -164,8 +164,8 @@ candidate, not proof that the engine fix is generally safe.
 
 | Variant | App commit | Engine identity | APK identity | Scenario 9 result |
 | --- | --- | --- | --- | --- |
-| Baseline | `36d7e27` (same frozen app commit) | Stock Flutter 3.44.8/default engine; record `engine.version` | Record APK SHA256 and ELF Build ID before upload | Expected crash; original baseline matrix is [`matrix-xhjt4741oh8ba`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/5863574393666669055) |
-| Patched candidate (force-rebind) | `36d7e27` (same frozen app commit) | `dfdgsdfg/flutter` local fix branch; lib SHA256 `01d28ad2fddb687500635dfd41afc6a434d74bea81dfc246fb28d4868e39d5c0`, Build ID `c8f84ab6a8f6c69b36cce4c06fc697fef9fcd79e` | APK SHA256 `1706bb2fef328c6f31d4217de6e84b20fa8900bdc15759ce116e8afc0a745fe1` | 4/4 passed: `matrix-1npe6ectnfvy9`, `matrix-1q0hpbn2mdc09`, `matrix-2k3zkbmzzq420`, `matrix-3cd8a1yoldmf1`; verify-3 [`9163761808229023214`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/9163761808229023214); 606 s each |
+| Baseline | Same frozen app commit | Stock Flutter 3.44.8/default engine; record `engine.version` | Record APK SHA256 and ELF Build ID before upload | Expected crash; original baseline matrix is [`matrix-xhjt4741oh8ba`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/5863574393666669055) |
+| Patched candidate (force-rebind) | Same frozen app commit | `dfdgsdfg/flutter` local fix branch; lib SHA256 `01d28ad2fddb687500635dfd41afc6a434d74bea81dfc246fb28d4868e39d5c0`, Build ID `c8f84ab6a8f6c69b36cce4c06fc697fef9fcd79e` | APK SHA256 `1706bb2fef328c6f31d4217de6e84b20fa8900bdc15759ce116e8afc0a745fe1` | 4/4 passed: `matrix-1npe6ectnfvy9`, `matrix-1q0hpbn2mdc09`, `matrix-2k3zkbmzzq420`, `matrix-3cd8a1yoldmf1`; verify-3 [`9163761808229023214`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/9163761808229023214); 606 s each |
 
 The baseline APK hash was not captured in the original evidence record; it
 must be measured from the exact uploaded APK in any repeat. Do not compare
@@ -233,11 +233,12 @@ underlying engine defect.
 
 [PR #190655](https://github.com/flutter/flutter/pull/190655) is valid
 hardening for an `eglMakeCurrent` failure being incorrectly treated as success,
-but its relevance to this deterministic repro is currently low (estimated
-2–5%). The failing logs do not show a failed `eglMakeCurrent`,
-`EGL_BAD_ACCESS`, or `EGL_BAD_SURFACE`; the repeat also fails without lifecycle
+but it addresses a different failure path in this deterministic repro. The
+observed `eglMakeCurrent` calls succeed and the logs do not show
+`EGL_BAD_ACCESS` or `EGL_BAD_SURFACE`; the repeat also fails without lifecycle
 churn. The failing work is on the offscreen/IO context while the observed
-surface recreation is onscreen.
+surface recreation is onscreen. PR #190655 has not been directly tested in this
+matrix and does not supersede the current FBO/texture diagnosis.
 
 The PR is relevant only if an engine A/B run demonstrates that context failure
 first. A useful acceptance check is: the unpatched engine fails 2/2; the exact
