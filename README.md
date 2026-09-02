@@ -32,6 +32,9 @@ The only intended variable is the Flutter engine embedded in the APK: stock
 Flutter 3.44.8 for baseline versus a `dfdgsdfg/flutter` patched-engine branch
 for the candidate fix. App branches are not used to represent the A/B.
 
+For the key crash stack, sanitized GL chronology, and self-contained four-run
+comparison, see the [reviewable crash evidence](docs/evidence.md).
+
 ## Scenarios
 
 1. Light-mode image decode and resize baseline
