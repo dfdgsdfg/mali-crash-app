@@ -148,6 +148,7 @@ row rather than replacing an earlier matrix.
 | Diagnostic v2 | [`matrix-1tuglrgj6zgl3`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/4683634709996739103) | `GL_INVALID_OPERATION`, FBO valid, current EGL handles present, `texture_handle_is_texture=false` |
 | `threadsafe=true` texture A/B | [`matrix-22ye7y2uvt1a7`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/6601825473377377354) | Same crash and identity result; changing the decoder texture to tracked/thread-safe did not resolve it |
 | force-rebind A/B (4/4) | `matrix-1npe6ectnfvy9`, `matrix-1q0hpbn2mdc09`, `matrix-2k3zkbmzzq420`, `matrix-3cd8a1yoldmf1`; verify-3 [`9163761808229023214`](https://console.firebase.google.com/project/us-app-ea67d/testlab/histories/bh.d17e9c8f630d19e0/matrices/9163761808229023214) | All passed, 606 s each; 33,860/33,397/33,338/33,436 iterations and 2,148/2,148/2,149/2,148 probes; zero `GL_INVALID_OPERATION`, `ConfigureFBO failure`, `FATAL/SIGABRT`, and upload/attach `is_texture=false` observations |
+| reviewer cleanup-only | `matrix-3j7vwwd2v8nhk` (0/1; no public console link) | No pre-bind; post-use `BindTexture(target, 0)` only in `BlitCopyBufferToTextureCommandGLES::Encode` and `TextureGLES::OnSetContents`; crashed at about 5.13 s around iteration 70 with the same `blit_pass_gles.cc(88)` signature |
 
 The v2 and `threadsafe=true` observations narrow the failure to an invalid or
 unusable texture name at the FBO attachment point, but do not distinguish a
@@ -193,6 +194,9 @@ matches the intended engine output for both variants.
 5. The force-rebind A/B clears the texture target binding immediately before
    upload, then binds the generated texture again. All four recorded runs
    passed; a production fix still requires review and broader device coverage.
+6. The reviewer cleanup-only variant omitted pre-bind and only unbound after
+   use in the two scoped sites. It still crashed 0/1, so post-use cleanup alone
+   does not explain the 4/4 force-rebind passes.
 
 Current conclusion: the double decode is a reliable trigger for this
 reproducer, but the engine-level cause is not proven. Candidate causes remain
